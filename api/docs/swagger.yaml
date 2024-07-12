@@ -1,0 +1,152 @@
+definitions:
+  auth_service.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  auth_service.RegisterRequest:
+    properties:
+      email:
+        type: string
+      fullName:
+        description: Profil uchun qo'shimcha maydon
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.Errors:
+    properties:
+      message:
+        type: string
+    type: object
+  models.Request:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  models.Success:
+    properties:
+      message:
+        type: string
+    type: object
+  models.Token:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+host: localhost:8081
+info:
+  contact: {}
+  description: This is a sample server for Auth Service.
+  title: Auth Service API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user with email and password
+      parameters:
+      - description: User Login
+        in: body
+        name: Login
+        required: true
+        schema:
+          $ref: '#/definitions/auth_service.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Token'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Errors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Errors'
+      summary: Login a user
+      tags:
+      - Auth
+  /auth/refresh_token:
+    get:
+      consumes:
+      - application/json
+      description: Refresh the access token using the refresh token
+      parameters:
+      - description: Refresh token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Request'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Errors'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Errors'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Errors'
+      security:
+      - ApiKeyAuth: []
+      summary: Refresh access token
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with email and password
+      parameters:
+      - description: User Registration
+        in: body
+        name: Register
+        required: true
+        schema:
+          $ref: '#/definitions/auth_service.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Errors'
+      summary: Register a new user
+      tags:
+      - Auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option go_package = "generated/payment_service";
+
+package payment_service;
+
+service PaymentService {
+    rpc CreatePayment (CreatePaymentRequest) returns (CreatePaymentResponse);
+    rpc GetPayment (GetPaymentRequest) returns (GetPaymentResponse);
+    rpc UpdatePayment (UpdatePaymentRequest) returns (UpdatePaymentResponse);
+}
+
+message Payment {
+    string id = 1;
+    string reservation_id = 2;
+    double amount = 3;
+    string payment_method = 4;
+    string payment_status = 5;
+}
+  
+message CreatePaymentRequest {
+    string reservation_id = 1;
+    double amount = 2;
+    string payment_method = 3;
+    string payment_status = 4;
+}
+  
+message CreatePaymentResponse {
+    Payment payment = 1;
+}
+  
+message GetPaymentRequest {
+    string id = 1;
+}
+  
+message GetPaymentResponse {
+    Payment payment = 1;
+}
+  
+message UpdatePaymentRequest {
+    string id = 1;
+    string reservation_id = 2;
+    double amount = 3;
+    string payment_method = 4;
+    string payment_status = 5;
+}
+  
+message UpdatePaymentResponse {
+    Payment payment = 1;
+}

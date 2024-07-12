@@ -1,0 +1,240 @@
+syntax = "proto3";
+
+option go_package = "generated/reservation_service";
+
+package reservation_service;
+
+service ReservationService {
+    rpc CreateRestaurant (CreateRestaurantRequest) returns (CreateRestaurantResponse);
+    rpc ListRestaurants (ListRestaurantsRequest) returns (ListRestaurantsResponse);
+    rpc GetRestaurant (GetRestaurantRequest) returns (GetRestaurantResponse);
+    rpc UpdateRestaurant (UpdateRestaurantRequest) returns (UpdateRestaurantResponse);
+    rpc DeleteRestaurant (DeleteRestaurantRequest) returns (DeleteRestaurantResponse);
+
+    rpc CreateReservation (CreateReservationRequest) returns (CreateReservationResponse);
+    rpc ListReservations (ListReservationsRequest) returns (ListReservationsResponse);
+    rpc GetReservation (GetReservationRequest) returns (GetReservationResponse);
+    rpc UpdateReservation (UpdateReservationRequest) returns (UpdateReservationResponse);
+    rpc DeleteReservation (DeleteReservationRequest) returns (DeleteReservationResponse);
+    rpc CheckReservation (CheckReservationRequest) returns (CheckReservationResponse);
+    rpc OrderMeals (OrderMealsRequest) returns (OrderMealsResponse);
+    rpc PayReservation (PayReservationRequest) returns (PayReservationResponse);
+
+    rpc CreateMenuItem (CreateMenuItemRequest) returns (CreateMenuItemResponse);
+    rpc ListMenuItems (ListMenuItemsRequest) returns (ListMenuItemsResponse);
+    rpc GetMenuItem (GetMenuItemRequest) returns (GetMenuItemResponse);
+    rpc UpdateMenuItem (UpdateMenuItemRequest) returns (UpdateMenuItemResponse);
+    rpc DeleteMenuItem (DeleteMenuItemRequest) returns (DeleteMenuItemResponse);
+}
+
+message Restaurant {
+    string id = 1;
+    string name = 2;
+    string address = 3;
+    string phone_number = 4;
+    string description = 5; 
+}
+
+message CreateRestaurantRequest {
+    string name = 1;
+    string address = 2;
+    string phone_number = 3;
+    string description = 4;
+}
+
+
+message CreateRestaurantResponse {
+    Restaurant restaurant = 1;
+}
+
+message ListRestaurantsRequest {
+    string name = 1;
+    string address = 2;
+}
+
+message ListRestaurantsResponse {
+    repeated Restaurant restaurants = 1;
+}
+
+message GetRestaurantRequest {
+    string id = 1;
+}
+
+message GetRestaurantResponse {
+    Restaurant restaurant = 1;
+}
+
+message UpdateRestaurantRequest {
+    string id = 1;
+    string name = 2;
+    string address = 3;
+    string phone_number = 4;
+    string description = 5;
+}
+
+message UpdateRestaurantResponse {
+    Restaurant restaurant = 1;
+}
+
+message DeleteRestaurantRequest {
+    string id = 1;
+}
+  
+message DeleteRestaurantResponse {
+    string message = 1;
+}
+
+// Reservation
+
+message Reservation {
+    string id = 1;
+    string user_id = 2;
+    string restaurant_id = 3;
+    string reservation_time = 4;
+    string status = 5;
+}
+
+
+message CreateReservationRequest {
+    string user_id = 1;
+    string restaurant_id = 2;
+    string reservation_time = 3;
+    string status = 4;
+}
+
+message CreateReservationResponse {
+    Reservation reservation = 1;
+}
+
+message ListReservationsRequest {
+    string restaurant_id = 1;
+    string reservation_time = 2;
+    string status = 3;
+}
+
+message ListReservationsResponse {
+    repeated Reservation reservations = 1;
+}
+
+message GetReservationRequest {
+    string id = 1;
+}
+
+message GetReservationResponse {
+    Reservation reservation = 1;
+}
+
+message UpdateReservationRequest {
+    string id = 1;
+    string user_id = 2;
+    string restaurant_id = 3;
+    string reservation_time = 4;
+    string status = 5;
+}
+
+message UpdateReservationResponse {
+    Reservation reservation = 1;
+}
+
+message DeleteReservationRequest {
+    string id = 1;
+}
+  
+message DeleteReservationResponse {
+    string message = 1;
+}
+
+message CheckReservationRequest {
+    string restaurant_id = 1;
+    string reservation_time = 2;
+}
+  
+message CheckReservationResponse {
+    bool available = 1;
+}
+
+// order reservation
+  
+message OrderMealsRequest {
+    string reservation_id = 1;
+    repeated MenuItem meals = 2;
+}
+  
+  
+message OrderMealsResponse {
+    Reservation reservation = 1;
+}
+  
+message PayReservationRequest {
+    string reservation_id = 1;
+    Payment payment = 2;
+}
+  
+message PayReservationResponse {
+    Reservation reservation = 1;
+}
+
+// menu
+  
+message MenuItem {
+    string id = 1;
+    string restaurant_id = 2;
+    string name = 3;
+    string description = 4;
+    float price = 5;
+}
+
+message CreateMenuItemRequest {
+    string restaurant_id = 1;
+    string name = 2;
+    string description = 3;
+    float price = 4;
+}
+  
+message CreateMenuItemResponse {
+    MenuItem menu_item = 1;
+}
+  
+message ListMenuItemsRequest {
+    string restaurant_id = 1;
+    string name = 2;
+    float price = 3;
+}
+  
+message ListMenuItemsResponse {
+    repeated MenuItem menu_items = 1;
+}
+  
+message GetMenuItemRequest {
+    string id = 1;
+}
+  
+message GetMenuItemResponse {
+    MenuItem menu_item = 1;
+}
+  
+message UpdateMenuItemRequest {
+    string id = 1;
+    string restaurant_id = 2;
+    string name = 3;
+    string description = 4;
+    float price = 5;
+}
+  
+message UpdateMenuItemResponse {
+    MenuItem menu_item = 1;
+}
+  
+message DeleteMenuItemRequest {
+    string id = 1;
+}
+
+message DeleteMenuItemResponse {
+    string message = 1;
+}
+  
+message Payment {
+    string id = 1;
+    float amount = 2;
+    string status = 3;
+}
